@@ -2,6 +2,7 @@ package com.JobOffer.JobOfferService.controller;
 
 import com.JobOffer.JobOfferService.dto.JobOfferDto;
 import com.JobOffer.JobOfferService.dto.wrapper.PaginatedResponseDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -9,13 +10,12 @@ import com.JobOffer.JobOfferService.Service.JobOfferService;
 
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/service/JobOffer")
 public class JobOfferController {
-    private final JobOfferService jobservice;
-    public JobOfferController(JobOfferService jobservice){
-        this.jobservice=jobservice;
-    }
+
+    @Autowired
+    private JobOfferService jobservice;
 
     @GetMapping("/{id}")
     public ResponseEntity<JobOfferDto> getOffer(@PathVariable UUID id) {

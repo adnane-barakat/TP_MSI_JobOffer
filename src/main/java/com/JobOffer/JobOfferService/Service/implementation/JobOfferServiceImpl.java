@@ -23,7 +23,7 @@ public class JobOfferServiceImpl implements JobOfferService {
 
     private static final Logger logger = LoggerFactory.getLogger(JobOfferServiceImpl.class);
     private final JobOfferMapper mapper= JobOfferMapper.INSTANCE;
-    private final CompanyMapper companyMapper = CompanyMapper.INSTANCE;
+    // private final CompanyMapper companyMapper = CompanyMapper.INSTANCE;
     private final JobOfferRepository jobOfferRepository;
     private final CompanyRepository companyRepository;
 

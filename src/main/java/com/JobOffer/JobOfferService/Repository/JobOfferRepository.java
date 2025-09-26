@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface JobOfferRepository extends JpaRepository<JobOffer, UUID> {
 
-    List<JobOffer> findAllByTitleLikeOrderByCreationTimestampsDesc(String title);
+    List<JobOffer> findAllByTitleLikeOrderByCreationTimestampDesc(String title);
 
     Page<JobOffer> searchAllByTitleLikeIgnoreCase(String titleRegex, Pageable pageable);
 

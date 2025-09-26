@@ -1,42 +1,65 @@
 package com.JobOffer.JobOfferService.entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Company {
+
     @Id
-    @GeneratedValue
-    private Long id;
     private String name;
     private String address;
 
-    public Company() {}
+    @OneToMany
+    private List<JobOffer> jobOffers;
 
-    public Company(String name, String address) {
-        this.name = name;
-        this.address = address;
-    }
-    public Long getId() {
-        return id;
+    public Company() {
     }
 
-    public String GetName() {
+    public String getName() {
         return name;
     }
-    public Company SetName(String name) {
+
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
-    public String GetAddress() {
+    public String getAddress() {
         return address;
     }
-    public Company setAddress(String address) {
+
+    public void setAddress(String address) {
         this.address = address;
-        return this;
     }
 
+    public List<JobOffer> getJobOffers() {
+        return jobOffers;
+    }
 
+    public void setJobOffers(List<JobOffer> jobOffers) {
+        this.jobOffers = jobOffers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Company company)) return false;
+        return Objects.equals(name, company.name) && Objects.equals(address, company.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, address);
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }

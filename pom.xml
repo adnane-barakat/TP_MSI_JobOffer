@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.6.0.Beta1</version>
+			<version>1.6.1</version>
 		</dependency>
 
 		<dependency>
@@ -98,11 +98,12 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>
 				<configuration>
+					<encoding>UTF-8</encoding>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
-							<version>1.6.0.Beta1</version>
+							<version>1.6.1</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>

@@ -5,6 +5,7 @@ import com.JobOffer.JobOfferService.Repository.JobOfferRepository;
 import com.JobOffer.JobOfferService.Service.JobOfferService;
 import com.JobOffer.JobOfferService.dto.JobOfferDto;
 import com.JobOffer.JobOfferService.dto.wrapper.PaginatedResponseDto;
+
 import com.JobOffer.JobOfferService.entities.JobOffer;
 import com.JobOffer.JobOfferService.mapper.CompanyMapper;
 import com.JobOffer.JobOfferService.mapper.JobOfferMapper;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+
 import java.util.UUID;
 
 
@@ -23,11 +25,11 @@ public class JobOfferServiceImpl implements JobOfferService {
 
     private static final Logger logger = LoggerFactory.getLogger(JobOfferServiceImpl.class);
     private final JobOfferMapper mapper= JobOfferMapper.INSTANCE;
-    // private final CompanyMapper companyMapper = CompanyMapper.INSTANCE;
+    private final CompanyMapper companyMapper = CompanyMapper.INSTANCE;
     private final JobOfferRepository jobOfferRepository;
     private final CompanyRepository companyRepository;
 
-    public JobOfferServiceImpl(JobOfferRepository jobOfferRepository,CompanyRepository companyRepository){
+    public JobOfferServiceImpl(JobOfferRepository jobOfferRepository, CompanyRepository companyRepository){
         this.jobOfferRepository = jobOfferRepository;
         this.companyRepository = companyRepository;
     }
@@ -47,6 +49,11 @@ public class JobOfferServiceImpl implements JobOfferService {
 
     @Override
     public JobOfferDto publishNewJobOffer(JobOfferDto newJobOffer, String requestor){
+        if(newJobOffer.owner()==null){
+            throw new  IllegalArgumentException("owner is missing");
+        } else if(!companyRepository.existsById(newJobOffer.owner().name())){
+            companyRepository.save(companyMapper.toEntity(newJobOffer.owner()));
+        }
         JobOffer newJobOfferEntity = mapper.toEntity(newJobOffer);
         JobOffer savedJobOffer = jobOfferRepository.save(newJobOfferEntity);
         return mapper.toDto(savedJobOffer);
@@ -55,10 +62,13 @@ public class JobOfferServiceImpl implements JobOfferService {
 
     @Override
     public JobOfferDto updateJobOffer(JobOfferDto jobOfferDto , String requestor) {
-        JobOffer existingJobOffer = jobOfferRepository.findById(jobOfferDto.uid()).orElseThrow(EntityNotFoundException::new);
+        JobOffer existingJobOffer = jobOfferRepository.findById(jobOfferDto.id()).orElseThrow(EntityNotFoundException::new);
         existingJobOffer.setTitle(jobOfferDto.title());
         existingJobOffer.setEndDate(jobOfferDto.endDate());
         existingJobOffer.setStartDate(jobOfferDto.startDate());
+
+        existingJobOffer = jobOfferRepository.save(existingJobOffer);
+
 
         return mapper.toDto(existingJobOffer);
     }

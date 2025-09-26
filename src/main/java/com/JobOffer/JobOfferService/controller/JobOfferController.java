@@ -3,6 +3,7 @@ package com.JobOffer.JobOfferService.controller;
 import com.JobOffer.JobOfferService.dto.JobOfferDto;
 import com.JobOffer.JobOfferService.dto.wrapper.PaginatedResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,17 @@ public class JobOfferController {
 
 
     @PostMapping
-    public JobOfferDto publishOffer(@RequestBody JobOfferDto newJob , String requestor){
-            return jobservice.publishNewJobOffer( newJob , requestor);
+    public ResponseEntity<JobOfferDto> publishOffer(@RequestBody JobOfferDto newJob , String requestor){
+        JobOfferDto resultJobOffer = jobservice.publishNewJobOffer(newJob, requestor);
+        return ResponseEntity.status(HttpStatus.CREATED).body(resultJobOffer);
     }
 
     @GetMapping
-    public PaginatedResponseDto<JobOfferDto> search(@RequestBody String title , int page , int size){
+    public PaginatedResponseDto<JobOfferDto> search(
+            @RequestParam(required = false, name = "title", defaultValue = "*") String title,
+            @RequestParam(required = false, name = "page", defaultValue = "0") int page,
+            @RequestParam(required = false, name = "size", defaultValue = "10") int size){
+        title = title.replace("*", "%");
         return jobservice.search(title , page , size);
     }
 

@@ -1,107 +1,135 @@
 package com.JobOffer.JobOfferService.entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 public class JobOffer {
+
     @Id
-    @GeneratedValue
-    private UUID uid;
+    private UUID id;
     private String title;
+    private String description;
+    private UUID studentId;
+    @ManyToOne
+    private Company owner;
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalTime startDayTime;
     private LocalTime endDayTime;
-    private UUID student ;
-    private int expirationDays ;
-    private Instant creationTimestamps;
-    @ManyToOne
-    private Company owner;
+    private int expirationDays;
+    private Instant creationTimestamp;
 
-
-    public JobOffer() {}
-
-    public UUID getUid() {
-        return uid;
+    public JobOffer() {
     }
 
-    public Company getOwner() {
-        return owner;
-    }
-    public void setOwner(Company owner) {
-        this.owner=owner;
+    public UUID getId() {
+        return id;
     }
 
-    public String getTitle(){
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
         return title;
     }
-    public JobOffer setTitle(String title){
-        this.title=title;
-        return this;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDate getStartDate() {
         return startDate;
     }
-    public JobOffer setStartDate(LocalDate startDate) {
+
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
-        return this;
     }
 
-    public LocalDate getEndDate(){
+    public LocalDate getEndDate() {
         return endDate;
     }
-    public JobOffer setEndDate(LocalDate endDate){
-        this.endDate=endDate;
-        return this;
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
-    public LocalTime getStartDayTime(){
+    public LocalTime getStartDayTime() {
         return startDayTime;
     }
-    public JobOffer setStartDaytime(LocalTime startDayTime){
-        this.startDayTime=startDayTime;
-        return this;
+
+    public void setStartDayTime(LocalTime startDayTime) {
+        this.startDayTime = startDayTime;
     }
 
-    public LocalTime getEndDayTime(){
+    public LocalTime getEndDayTime() {
         return endDayTime;
     }
-    public JobOffer setEndDayTime(LocalTime endDayTime){
-        this.endDayTime=endDayTime;
-        return this;
-    }
-    public UUID getStudent(){
-        return student;
-    }
-    public JobOffer setStudent(UUID student){
-        this.student=student;
-        return this;
+
+    public void setEndDayTime(LocalTime endDayTime) {
+        this.endDayTime = endDayTime;
     }
 
-    public int getExpirationDays(){
+    public int getExpirationDays() {
         return expirationDays;
     }
-    public JobOffer setExpirationDays(int expirationDays){
-        this.expirationDays=expirationDays;
-        return this;
+
+    public void setExpirationDays(int expirationDays) {
+        this.expirationDays = expirationDays;
     }
 
-    public Instant getCreationTimestamps(){
-        return creationTimestamps;
-    }
-    public JobOffer setCreationTimestamps(Instant creationTimestamps){
-        this.creationTimestamps=creationTimestamps;
-        return this;
+    public Instant getCreationTimestamp() {
+        return creationTimestamp;
     }
 
+    public void setCreationTimestamp(Instant creationTimestamp) {
+        this.creationTimestamp = creationTimestamp;
+    }
 
+    public UUID getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(UUID studentId) {
+        this.studentId = studentId;
+    }
+
+    public Company getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Company company) {
+        this.owner = company;
+    }
+
+    public boolean isAssigned () {
+        return studentId != null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof JobOffer jobOffer)) return false;
+        return expirationDays == jobOffer.expirationDays && Objects.equals(id, jobOffer.id) && Objects.equals(title, jobOffer.title) && Objects.equals(description, jobOffer.description) && Objects.equals(startDate, jobOffer.startDate) && Objects.equals(endDate, jobOffer.endDate) && Objects.equals(startDayTime, jobOffer.startDayTime) && Objects.equals(endDayTime, jobOffer.endDayTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
